@@ -1,7 +1,5 @@
 import io
 import re
-import token
-import tokenize
 from collections import deque
 
 #          0   |   1   |   2   |   3   |   4   |   5   |   6   |   7   |   8   |   9
@@ -111,7 +109,10 @@ def next_state(cur_state, str, i, level_stack: deque, op_stack: deque,
         if len(op_stack) > 0:
             op = op_stack.pop()
             if op == '\\':
-                state = equ_id['name']
+                if len(op_stack) > 0 and op_stack[0] == op:
+                    op_stack.clear()
+                else:
+                    state = equ_id['name']
             else:
                 op_stack.clear()
 
